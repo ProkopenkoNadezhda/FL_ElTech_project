@@ -1,0 +1,49 @@
+program:
+	|__None
+	
+	|__fib_34:
+		|__args:
+			|__n
+		
+		|__func_body:
+			|__=:
+				|__text
+				
+				|__0
+			
+			|__=:
+				|__w
+				
+				|__*:
+					|__1
+					
+					|__8
+			
+			|__if:
+				|__<=:
+					|__c
+					
+					|__7
+				
+				|__func_body:
+					|__
+				
+				|__else:
+					|__func_body:
+						|__
+			
+			|__func_body:
+				|__return:
+					|__sum
+			|__while:
+				|__||:
+					|__==:
+						|__v
+						
+						|__7
+					
+					|__n
+				
+				|__func_body:
+					|__return:
+						|__sum

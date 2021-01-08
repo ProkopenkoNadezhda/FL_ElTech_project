@@ -1,0 +1,6 @@
+func fib_34(n){
+id text = 0;
+id w =1*8;
+if (c <= 7 ){ }else{}
+repeat(v==7||n){return sum;}
+}

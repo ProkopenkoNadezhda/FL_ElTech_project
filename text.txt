@@ -1,0 +1,19 @@
+func My_pro(j, k){
+    j = 2+3**(2*9**0);
+    k = fib(j);
+}
+
+func fib(n){
+    if(n == 1 || n == 2){
+        return 1;}else{return n;}
+    if(n == 0){
+        return 0;}else{}
+    id f_1 = 0;
+    id f_2 = 1;
+    id i = 1;
+    while(i <= n){
+        f_1 = f_2 + f_1;
+        f_2 = f_1 - f_2;
+        i = i + 1;
+        return f1;}
+}
