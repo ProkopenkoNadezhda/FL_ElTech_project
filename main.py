@@ -1,6 +1,5 @@
 import ply.yacc as yacc
 from lexer import tokens, precedence
-import os
 import sys
 
 
@@ -22,13 +21,11 @@ class Node:
         return "\n\n|__".join(st)
 
     def __repr__(self):
-        if self.type == 'return':
-            return self.type + ":\n\t|__" + self.children
         return self.type + ":\n\t|__" + self.children_str().replace("\n", "\n\t")
 
 def p_program(p):
-    '''program : program_body func'''
-    p[0] = Node('program', [p[1], p[2]])
+    '''program : program_body'''
+    p[0] = Node('program', [p[1]])
 
 def p_program_body(p):
     '''program_body :
@@ -118,8 +115,7 @@ def p_while(p):
 
 def p_return(p):
     '''return : RETURN expression END'''
-    p[2] = (str(p[2]).replace("\n", "\n\t"))
-    p[0] = Node('return', str(p[2]))
+    p[0] = Node('return', [p[2]])
 
 
 def p_expression_plus_minus(p):
