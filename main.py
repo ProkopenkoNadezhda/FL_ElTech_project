@@ -80,7 +80,6 @@ def p_assign(p):
     flag = False
     for i in temp_list:
         if i == str(p[1]):
-            print(p[1])
             flag = True
             break
     if flag:
