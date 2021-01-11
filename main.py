@@ -1,5 +1,6 @@
 import ply.yacc as yacc
 from lexer import tokens, precedence
+import sys
 
 temp_list = []
 
@@ -177,8 +178,8 @@ def p_error(p):
     raise SystemExit(2)
 
 def build_tree():
+    name = sys.argv[1]
     parser = yacc.yacc()
-    name = input("Enter a file name>>")
     if name.endswith(".txt"):
         try:
             with open(name, 'r') as text:
