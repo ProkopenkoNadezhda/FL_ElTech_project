@@ -1,6 +1,8 @@
 import ply.yacc as yacc
 from lexer import tokens, precedence
+import os
 import sys
+
 
 temp_list = []
 
@@ -42,7 +44,7 @@ def p_func(p):
 
 def p_args(p):
     '''args :
-            | NAME
+            | expression
             | args COMMA NAME'''
     if len(p) == 1:
         p[0] = Node('args', [])
@@ -88,7 +90,12 @@ def p_assign(p):
         p_error(p)
 
 def p_call(p):
-    '''call : NAME LBR args RBR END'''
+    '''call : NAME LBR args RBR END
+            | NAME LBR call_1 RBR END'''
+    p[0] = Node('call func ' + p[1], [p[3]])
+
+def p_call_1(p):
+    '''call_1 : NAME LBR args RBR'''
     p[0] = Node('call func ' + p[1], [p[3]])
 
 
@@ -110,16 +117,14 @@ def p_while(p):
 
 
 def p_return(p):
-    '''return : RETURN expression END
-              | RETURN NAME END'''
+    '''return : RETURN expression END'''
+    p[2] = (str(p[2]).replace("\n", "\n\t"))
     p[0] = Node('return', str(p[2]))
 
 
 def p_expression_plus_minus(p):
-    '''expression : expression PLUS term
-                  | NAME PLUS term
-                  | expression MINUS term
-                  | NAME MINUS term'''
+    '''expression : expression PLUS expression
+                  | expression MINUS expression'''
     p[0] = Node(p[2], [p[1], p[3]])
 
 
@@ -137,12 +142,12 @@ def p_expression_term(p):
     p[0] = p[1]
 
 def p_term_times_div(p):
-    '''term : term MULT factor
-            | term DIV factor'''
+    '''term : term MULT term
+            | term DIV term'''
     p[0] = Node(p[2], [p[1], p[3]])
 
 def p_expression_con(p):
-    '''term : term CON term'''
+    '''expression : expression CON expression'''
     p[0] = Node(p[2], [p[1], p[3]])
 
 def p_expression_dis(p):
@@ -154,7 +159,7 @@ def p_term_neg(p):
     p[0] = Node(p[1], [p[2]])
 
 def p_term_pow(p):
-    '''factor : factor POW expression'''
+    '''factor : term POW expression'''
     p[0] = Node(p[2], [p[1], p[3]])
 
 def p_term_factor(p):
@@ -163,7 +168,8 @@ def p_term_factor(p):
     p[0] = p[1]
 
 def p_factor_num(p):
-    'factor : NUM'
+    '''factor : NUM
+              | call_1'''
     p[0] = p[1]
 
 
